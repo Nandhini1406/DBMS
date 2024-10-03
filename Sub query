@@ -1,1 +1,7 @@
+3) select * from account where mod(acc_no,1000)=147;
+
+    ACC_NO ACC_TYPE             DATE_OPEN DATE_CLOS ACC_STATUS              BALANCE  BRANCH_ID    CUST_ID
+---------- -------------------- --------- --------- -------------------- ---------- ---------- ----------
+2000085147 Savings              15-SEP-03           Active                    23651       5021       1001
+
 
