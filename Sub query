@@ -12,3 +12,144 @@
    5000982 Transfer             28-SEP-22       2000 2000085348
    5000983 Withdrawal           18-SEP-19       3000 2000085349
    5000984 Deposit              25-OCT-23       4000 2000085350
+
+5) select * from deposit where cust_id not in (select cust_id from borrower);
+
+   CUST_ID     ACC_NO
+---------- ----------
+      1010 2000085357
+
+6) select c.* from customer c join loan l on c.cust_id=l.cust_id where l.loan_no between 60009853 and 60009855;
+
+   CUST_ID FNAME           MNAME      LNAME      CITY                 PH_NO OCCUPATION           DOB
+---------- --------------- ---------- ---------- --------------- ---------- -------------------- ---------
+      1002 Dev                        A          Ariyalur        9586321475 Analyst              13-AUG-97
+      1003 Raj                        V          Chennai         9586721475 Doctor               14-SEP-87
+      1004 Rajput                     D          Chennai         9486721475 Software Engineer    15-OCT-88
+
+7) select b.* from branch b join loan l on l.branch_id=b.branch_id where l.branch_id=5021;
+
+ BRANCH_ID BRANCH_NAME          BRANCH_CODE ADDRESS                                                 PH_NO
+---------- -------------------- ----------- -------------------------------------------------- ----------
+      5021 T.Nagar                     1005 No.86,GK Street,T.Nagar,Chennai-43                 9586721475
+
+8) select a.* from account a join transaction t on a.acc_no=t.acc_no where t.trans_type='Deposit' and a.acc_no between 2000085354 and 200008
+5356;
+
+    ACC_NO ACC_TYPE             DATE_OPEN DATE_CLOS ACC_STATUS              BALANCE  BRANCH_ID    CUST_ID
+---------- -------------------- --------- --------- -------------------- ---------- ---------- ----------
+2000085356 Savings              10-MAR-08           Active                    46198       7792       1009
+
+9) select * from customer natural join deposit;
+
+   CUST_ID FNAME           MNAME      LNAME      CITY                 PH_NO OCCUPATION           DOB           ACC_NO
+---------- --------------- ---------- ---------- --------------- ---------- -------------------- --------- ----------
+      1000 Arun                       Raj        Chennai         6592347891 Teacher              06-JAN-87 2000085348
+      1001 Arul                       J          Chennai         6592348721 Chef                 12-JUN-89 2000085147
+      1002 Dev                        A          Ariyalur        9586321475 Analyst              13-AUG-97 2000085349
+      1003 Raj                        V          Chennai         9586721475 Doctor               14-SEP-87 2000085350
+      1004 Rajput                     D          Chennai         9486721475 Software Engineer    15-OCT-88 2000085351
+      1005 Pari                       H          Erode           9586721475 Baker                16-NOV-89 2000085352
+      1006 Rajvansh        Roy        V          Chennai         7586721475 Bank Manager         01-DEC-90 2000085353
+      1007 Ravi            Chandran   K          Chennai         7588721475 Developer            11-JAN-91 2000085354
+      1008 Rakhi                      D          Salem           7588521475 Vet                  12-FEB-91 2000085355
+      1009 Mukul                      T          Chennai         7588521775 Chef                 13-FEB-91 2000085356
+      1010 Renya                      M          Coimbatore      6598321470 Medical analyst      15-MAR-97 2000085357
+
+10) select * from customer c inner join deposit d on c.cust_id=d.cust_id;
+
+   CUST_ID FNAME           MNAME      LNAME      CITY                 PH_NO OCCUPATION           DOB          CUST_ID     ACC_NO
+---------- --------------- ---------- ---------- --------------- ---------- -------------------- --------- ---------- ----------
+      1000 Arun                       Raj        Chennai         6592347891 Teacher              06-JAN-87       1000 2000085348
+      1001 Arul                       J          Chennai         6592348721 Chef                 12-JUN-89       1001 2000085147
+      1002 Dev                        A          Ariyalur        9586321475 Analyst              13-AUG-97       1002 2000085349
+      1003 Raj                        V          Chennai         9586721475 Doctor               14-SEP-87       1003 2000085350
+      1004 Rajput                     D          Chennai         9486721475 Software Engineer    15-OCT-88       1004 2000085351
+      1005 Pari                       H          Erode           9586721475 Baker                16-NOV-89       1005 2000085352
+      1006 Rajvansh        Roy        V          Chennai         7586721475 Bank Manager         01-DEC-90       1006 2000085353
+      1007 Ravi            Chandran   K          Chennai         7588721475 Developer            11-JAN-91       1007 2000085354
+      1008 Rakhi                      D          Salem           7588521475 Vet                  12-FEB-91       1008 2000085355
+      1009 Mukul                      T          Chennai         7588521775 Chef                 13-FEB-91       1009 2000085356
+      1010 Renya                      M          Coimbatore      6598321470 Medical analyst      15-MAR-97       1010 2000085357
+
+11)  select c.*,b.*,sum(l.loan_amt),avg(l.loan_amt),min(l.loan_amt),max(l.loan_amt) from loan l inner join customer c on l.cust_id=c.cust_id inner join branch b on l.branch_id=b.branch_id where l.loan_amt < 50000 group by c.cust_id,c.fname,c.mname,c.lname,c.city,c.ph_no,c.occupation,c.dob,b.branch_id,b.branch_name,b.branch_code,b.address,b.ph_no;
+
+   CUST_ID FNAME           MNAME      LNAME      CITY                 PH_NO OCCUPATION           DOB        BRANCH_ID BRANCH_NAME          BRANCH_CODE ADDRESS                                                 PH_NO SUM(L.LOAN_AMT) AVG(L.LOAN_AMT) MIN(L.LOAN_AMT) MAX(L.LOAN_AMT)
+---------- --------------- ---------- ---------- --------------- ---------- -------------------- --------- ---------- -------------------- ----------- -------------------------------------------------- ---------- --------------- --------------- --------------- ---------------
+      1004 Rajput                     D          Chennai         9486721475 Software Engineer    15-OCT-88       7901 Ashok Pillar                1523 No.11,JR Street,Ashok Pillar,Chennai-51            7588521775             8000            8000            8000            8000
+      1008 Rakhi                      D          Salem           7588521475 Vet                  12-FEB-91       4802 Poonamallee                 1003 No.101,Guru Street,Poonamallee,Chennai-56          9586721475            40000           40000           40000           40000
+      1009 Mukul                      T          Chennai         7588521775 Chef                 13-FEB-91       7792 Beach                       1004 No.25,VK Street,Virugambakkam,Chennai-92           9486721475            25000           25000           25000           25000
+
+12) select c.* from customer c inner join loan l on c.cust_id=l.cust_id group by l.loan_type,c.cust_id,c.fname,c.mname,c.lname,c.occupation,c.city,c.ph_no,c.dob having avg(l.loan_amt)>40000;
+
+   CUST_ID FNAME           MNAME      LNAME      CITY                 PH_NO OCCUPATION           DOB
+---------- --------------- ---------- ---------- --------------- ---------- -------------------- ---------
+      1001 Arul                       J          Chennai         6592348721 Chef                 12-JUN-89
+      1002 Dev                        A          Ariyalur        9586321475 Analyst              13-AUG-97
+      1003 Raj                        V          Chennai         9586721475 Doctor               14-SEP-87
+      1005 Pari                       H          Erode           9586721475 Baker                16-NOV-89
+      1006 Rajvansh        Roy        V          Chennai         7586721475 Bank Manager         01-DEC-90
+      1007 Ravi            Chandran   K          Chennai         7588721475 Developer            11-JAN-91
+      1010 Renya                      M          Coimbatore      6598321470 Medical analyst      15-MAR-97
+
+13) select sum(paid_amt),avg(paid_amt),min(paid_amt),max(paid_amt) from loan_payment group by loan_id,pay_date,pnr_amt,int_amt,paid_date hav
+ing pnr_amt<50000 and int_amt<5000;
+
+SUM(PAID_AMT) AVG(PAID_AMT) MIN(PAID_AMT) MAX(PAID_AMT)
+------------- ------------- ------------- -------------
+
+         2000          2000          2000          2000
+         1500          1500          1500          1500
+
+14) select sum(paid_amt),avg(paid_amt) from loan_payment where pay_date=paid_date;
+
+SUM(PAID_AMT) AVG(PAID_AMT)
+------------- -------------
+        10170         10170
+
+15) SELECT
+  2      a.*,
+  3      COUNT(t.amt) AS transaction_count,
+  4      SUM(t.amt) AS total_amount,
+  5      AVG(t.amt) AS average_amount
+  6  FROM
+  7      account a
+  8  LEFT JOIN
+  9      transaction t ON a.acc_no = t.acc_no
+ 10  WHERE
+ 11      t.trans_date BETWEEN TO_DATE('01-01-2022', 'DD-MM-YYYY') AND TO_DATE('31-12-2024', 'DD-MM-YYYY')
+ 12  GROUP BY
+ 13      a.acc_no,
+ 14      a.acc_type,
+ 15      a.date_open,
+ 16      a.date_close,
+ 17      a.acc_status,
+ 18      a.balance,
+ 19      a.branch_id,
+ 20      a.cust_id;
+
+    ACC_NO ACC_TYPE             DATE_OPEN DATE_CLOS ACC_STATUS              BALANCE  BRANCH_ID    CUST_ID TRANSACTION_COUNT TOTAL_AMOUNT AVERAGE_AMOUNT
+---------- -------------------- --------- --------- -------------------- ---------- ---------- ---------- ----------------- ------------ --------------
+2000085147 Savings              15-SEP-03           Active                    23651       5021       1001                 1         1000       1000
+2000085348 Savings              18-JAN-02           Active                    15000       5421       1000                 1         2000       2000
+2000085350 Savings              25-JUL-04           Active                     2011       4901       1003                 1         4000       4000
+2000085355 Current              09-MAY-05           Active                     4698       4802       1008                 1         9000       9000
+2000085356 Savings              10-MAR-08           Active                    46198       7792       1009                 1        10000      10000
+
+16) select c.cust_id,c.fname,c.mname,c.lname,a.acc_no from customer c full outer join account a on c.cust_id=a.cust_id;
+
+   CUST_ID FNAME           MNAME      LNAME          ACC_NO
+---------- --------------- ---------- ---------- ----------
+      1010 Renya                      M          2000085357
+      1001 Arul                       J          2000085147
+      1000 Arun                       Raj        2000085348
+      1002 Dev                        A          2000085349
+      1003 Raj                        V          2000085350
+      1004 Rajput                     D          2000085351
+      1005 Pari                       H          2000085352
+      1006 Rajvansh        Roy        V          2000085353
+      1007 Ravi            Chandran   K          2000085354
+      1008 Rakhi                      D          2000085355
+      1009 Mukul                      T          2000085356
+
+17) 
