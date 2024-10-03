@@ -5,3 +5,10 @@
 2000085147 Savings              15-SEP-03           Active                    23651       5021       1001
 
 
+4) select * from transaction where acc_no between 2000085348 and 2000085350;
+
+  TRANS_ID TRANS_TYPE           TRANS_DAT        AMT     ACC_NO
+---------- -------------------- --------- ---------- ----------
+   5000982 Transfer             28-SEP-22       2000 2000085348
+   5000983 Withdrawal           18-SEP-19       3000 2000085349
+   5000984 Deposit              25-OCT-23       4000 2000085350
