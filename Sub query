@@ -33,8 +33,7 @@
 ---------- -------------------- ----------- -------------------------------------------------- ----------
       5021 T.Nagar                     1005 No.86,GK Street,T.Nagar,Chennai-43                 9586721475
 
-8) select a.* from account a join transaction t on a.acc_no=t.acc_no where t.trans_type='Deposit' and a.acc_no between 2000085354 and 200008
-5356;
+8) select a.* from account a join transaction t on a.acc_no=t.acc_no where t.trans_type='Deposit' and a.acc_no between 2000085354 and 2000085356;
 
     ACC_NO ACC_TYPE             DATE_OPEN DATE_CLOS ACC_STATUS              BALANCE  BRANCH_ID    CUST_ID
 ---------- -------------------- --------- --------- -------------------- ---------- ---------- ----------
